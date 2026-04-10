@@ -21,6 +21,13 @@ function App(){
   const {isAuthenticated,user,loading} = useSelector((state)=>state.auth);
 
   useEffect(() => {
+    // Only run checkAuth on initial mount if we are NOT already authenticated.
+    // Running it unconditionally causes a race condition: right after login,
+    // the component re-renders and checkAuth fires again — if it returns 401
+    // (e.g. cookie race, Redis latency) it resets isAuthenticated to false,
+    // causing the user to be instantly logged out.
+    if (isAuthenticated) return;
+
     const authCheck = async () => {
       try {
         
@@ -38,7 +45,7 @@ function App(){
       }
     };
     authCheck();
-  }, [dispatch]);
+  }, [dispatch]); // intentionally omit isAuthenticated from deps — we only want this to run once on mount
 
   useEffect(() => {
     if (loading) {

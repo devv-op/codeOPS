@@ -16,17 +16,25 @@ const register = async (req, res) => {
     req.body.isVerified = false // User starts as unverified
     req.body.problemSolved = []
 
-    const user = await User.create(req.body)
-    
-    // Generate OTP
+    // Generate OTP before creating user so we can store it atomically
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
-    
-    // Store OTP in Redis with 10 minutes expiry
-    await redisClient.setEx(`otp:${emailId}`, 600, otp)
-    
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000) // 10 minutes
+
+    req.body.otp = otp
+    req.body.otpExpiry = otpExpiry
+
+    const user = await User.create(req.body)
+
+    // Also store in Redis as a fast cache (non-critical — safe proxy handles failures)
+    try {
+      await redisClient.setEx(`otp:${emailId}`, 600, otp)
+    } catch (redisErr) {
+      console.warn('⚠️  Redis OTP cache failed (non-fatal, MongoDB is primary):', redisErr.message)
+    }
+
     // Send OTP email
     await emailService.sendOTP(emailId, otp, firstName)
-    
+
     res.status(201).json({
       requiresVerification: true,
       emailId: emailId,
@@ -126,8 +134,15 @@ const logout = async (req, res) => {
     const { token } = req.cookies
     const payload = jwt.decode(token)
 
-    await redisClient.set(`token:${token}`, 'Blocked')
-    await redisClient.expireAt(`token:${token}`, payload.exp)
+    // Try to blocklist token in Redis — but don't fail logout if Redis is down
+    try {
+      if (redisClient.isOpen && payload) {
+        await redisClient.set(`token:${token}`, 'Blocked')
+        await redisClient.expireAt(`token:${token}`, payload.exp)
+      }
+    } catch (redisErr) {
+      console.warn('⚠️  Redis blocklist failed during logout (non-fatal):', redisErr.message)
+    }
 
     // Configure cookie for logout - same settings as login
     const cookieOptions = {
@@ -195,25 +210,52 @@ const verifyOTP = async (req, res) => {
       })
     }
 
-    // Get OTP from Redis
-    const storedOTP = await redisClient.get(`otp:${emailId}`)
-    
+    // --- Strategy: Redis first (fast), fall back to MongoDB (reliable) ---
+    let storedOTP = null
+    let otpSource = 'redis'
+
+    // 1. Try Redis cache first
+    try {
+      storedOTP = await redisClient.get(`otp:${emailId}`)
+    } catch (redisErr) {
+      console.warn('⚠️  Redis OTP lookup failed, falling back to MongoDB:', redisErr.message)
+    }
+
+    // 2. Fall back to MongoDB if Redis missed (not connected / OTP not cached)
     if (!storedOTP) {
+      otpSource = 'mongodb'
+      const userWithOTP = await User.findOne({ emailId }).select('+otp +otpExpiry')
+
+      if (!userWithOTP || !userWithOTP.otp) {
+        return res.status(400).json({
+          message: 'OTP expired or invalid. Please request a new OTP.'
+        })
+      }
+
+      // Check expiry
+      if (userWithOTP.otpExpiry && new Date() > userWithOTP.otpExpiry) {
+        // Clear expired OTP
+        await User.updateOne({ emailId }, { $unset: { otp: '', otpExpiry: '' } })
+        return res.status(400).json({
+          message: 'OTP has expired. Please request a new one.'
+        })
+      }
+
+      storedOTP = userWithOTP.otp
+    }
+
+    if (storedOTP !== otp.toString().trim()) {
       return res.status(400).json({
-        message: 'OTP expired or invalid'
+        message: 'Invalid OTP. Please check and try again.'
       })
     }
 
-    if (storedOTP !== otp) {
-      return res.status(400).json({
-        message: 'Invalid OTP'
-      })
-    }
+    console.log(`✅ OTP verified via ${otpSource} for ${emailId}`)
 
-    // Mark user as verified
+    // Mark user as verified and clear OTP fields from MongoDB
     const user = await User.findOneAndUpdate(
       { emailId },
-      { isVerified: true },
+      { isVerified: true, $unset: { otp: '', otpExpiry: '' } },
       { new: true }
     )
 
@@ -223,8 +265,12 @@ const verifyOTP = async (req, res) => {
       })
     }
 
-    // Delete OTP from Redis
-    await redisClient.del(`otp:${emailId}`)
+    // Clean up Redis cache too (non-critical)
+    try {
+      await redisClient.del(`otp:${emailId}`)
+    } catch (redisErr) {
+      console.warn('⚠️  Redis OTP cleanup failed (non-fatal):', redisErr.message)
+    }
 
     // Generate token
     const token = jwt.sign(
@@ -274,7 +320,7 @@ const resendOTP = async (req, res) => {
 
     // Check if user exists
     const user = await User.findOne({ emailId })
-    
+
     if (!user) {
       return res.status(404).json({
         message: 'User not found'
@@ -289,9 +335,17 @@ const resendOTP = async (req, res) => {
 
     // Generate new OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000) // 10 minutes
 
-    // Store OTP in Redis with 10 minutes expiry
-    await redisClient.setEx(`otp:${emailId}`, 600, otp)
+    // Save OTP to MongoDB (primary, reliable)
+    await User.updateOne({ emailId }, { otp, otpExpiry })
+
+    // Also cache in Redis (secondary, non-critical)
+    try {
+      await redisClient.setEx(`otp:${emailId}`, 600, otp)
+    } catch (redisErr) {
+      console.warn('⚠️  Redis OTP cache failed on resend (non-fatal):', redisErr.message)
+    }
 
     // Send OTP email
     await emailService.sendOTP(emailId, otp, user.firstName)

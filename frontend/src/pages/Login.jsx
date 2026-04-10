@@ -48,7 +48,7 @@ function Login() {
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen text-[#e0e0e0] overflow-hidden relative flex items-center justify-center p-4"
       style={{
         fontFamily: "'IBM Plex Mono', 'Fira Code', monospace",
@@ -56,7 +56,7 @@ function Login() {
       }}
     >
       {/* Animated grid background */}
-      <div 
+      <div
         className="fixed inset-0"
         style={{
           opacity: 0.03,
@@ -71,7 +71,7 @@ function Login() {
       />
 
       {/* Scanline effect */}
-      <div 
+      <div
         className="fixed inset-0 pointer-events-none"
         style={{
           zIndex: 50,
@@ -80,7 +80,7 @@ function Login() {
       />
 
       {/* Glowing orb */}
-      <div 
+      <div
         className="fixed pointer-events-none"
         style={{
           width: '500px',
@@ -95,19 +95,19 @@ function Login() {
       />
 
       {/* Navigation */}
-      <motion.nav 
+      <motion.nav
         className="fixed top-0 left-0 right-0 px-8 py-6"
         style={{ zIndex: 40 }}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <motion.div 
+          <motion.div
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => navigate('/')}
             whileHover={{ scale: 1.02 }}
           >
-            <div 
+            <div
               className="w-10 h-10 flex items-center justify-center"
               style={{ border: '2px solid #00ff88' }}
             >
@@ -134,9 +134,9 @@ function Login() {
           }}
         >
           <div className="mb-8">
-            <h1 
+            <h1
               className="text-3xl font-bold mb-2"
-              style={{ 
+              style={{
                 fontFamily: "'Orbitron', sans-serif",
                 color: '#e0e0e0',
               }}
@@ -149,7 +149,7 @@ function Login() {
           </div>
 
           {error && (
-            <motion.div 
+            <motion.div
               className="mb-6 p-4"
               style={{
                 backgroundColor: 'rgba(239, 68, 68, 0.1)',
@@ -166,26 +166,27 @@ function Login() {
             </motion.div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" autoComplete="off">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <label 
+              <label
                 className="block text-sm mb-2 tracking-wider"
                 style={{ color: '#808080' }}
               >
                 EMAIL
               </label>
               <div className="relative">
-                <Mail 
-                  className="absolute left-3 top-3.5 w-5 h-5" 
+                <Mail
+                  className="absolute left-3 top-3.5 w-5 h-5"
                   style={{ color: '#808080' }}
                 />
                 <input
                   type="email"
                   placeholder="you@example.com"
+                  autoComplete="off"
                   className="w-full pl-11 pr-4 py-3 transition-all"
                   style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -198,7 +199,7 @@ function Login() {
                 />
               </div>
               {errors.emailId && (
-                <motion.span 
+                <motion.span
                   className="text-xs mt-1 flex items-center gap-1"
                   style={{ color: '#ef4444' }}
                   initial={{ opacity: 0 }}
@@ -214,20 +215,21 @@ function Login() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <label 
+              <label
                 className="block text-sm mb-2 tracking-wider"
                 style={{ color: '#808080' }}
               >
                 PASSWORD
               </label>
               <div className="relative">
-                <Lock 
-                  className="absolute left-3 top-3.5 w-5 h-5" 
+                <Lock
+                  className="absolute left-3 top-3.5 w-5 h-5"
                   style={{ color: '#808080' }}
                 />
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
+                  autoComplete="new-password"
                   className="w-full pl-11 pr-12 py-3 transition-all"
                   style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -250,7 +252,7 @@ function Login() {
                 </motion.button>
               </div>
               {errors.password && (
-                <motion.span 
+                <motion.span
                   className="text-xs mt-1 flex items-center gap-1"
                   style={{ color: '#ef4444' }}
                   initial={{ opacity: 0 }}
@@ -270,7 +272,7 @@ function Login() {
                 type="submit"
                 disabled={loading}
                 className="w-full py-3.5 font-bold tracking-wider transition-all disabled:opacity-50 relative overflow-hidden group"
-                style={{ 
+                style={{
                   backgroundColor: '#00ff88',
                   color: '#0a0a0f',
                 }}
@@ -294,15 +296,15 @@ function Login() {
                     </>
                   )}
                 </span>
-                <div 
-                  className="absolute inset-0 translate-x-full group-hover:translate-x-0 transition-transform duration-300" 
+                <div
+                  className="absolute inset-0 translate-x-full group-hover:translate-x-0 transition-transform duration-300"
                   style={{ backgroundColor: '#00cc6f' }}
                 />
               </motion.button>
             </motion.div>
           </form>
 
-          <motion.div 
+          <motion.div
             className="mt-8 pt-6 text-center"
             style={{ borderTop: '1px solid rgba(128, 128, 128, 0.2)' }}
             initial={{ opacity: 0 }}
@@ -311,7 +313,7 @@ function Login() {
           >
             <p style={{ color: '#808080' }}>
               Don't have an account?{' '}
-              <NavLink 
+              <NavLink
                 to="/signup"
                 style={{ color: '#00ff88', fontWeight: 600 }}
                 className="hover:underline"

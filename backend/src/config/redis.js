@@ -1,8 +1,7 @@
-const { createClient } = require('redis');
-const path = require('path');
-require('dotenv').config(); // ✅ FIXED: Added parentheses
+require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
 
-// Configuration from environment variables
+const { createClient } = require('redis');
+
 const REDIS_HOST = process.env.REDIS_HOST;
 const REDIS_PORT = process.env.REDIS_PORT;
 const REDIS_PASSWORD = process.env.REDIS_PASS;
@@ -10,14 +9,17 @@ const REDIS_PASSWORD = process.env.REDIS_PASS;
 if (!REDIS_HOST || !REDIS_PORT || !REDIS_PASSWORD) {
     console.warn('⚠️  Redis configuration incomplete - Redis features will be disabled');
     console.warn('💡 Set REDIS_HOST, REDIS_PORT, and REDIS_PASS to enable Redis');
-    // Export a mock client that won't crash the app
     module.exports = {
         isOpen: false,
         connect: async () => { console.log('⚠️  Redis disabled - skipping connection'); },
-        quit: async () => {},
+        quit: async () => { },
         get: async () => null,
         set: async () => null,
+        setEx: async () => null,
         del: async () => null,
+        exists: async () => 0,
+        incr: async () => null,
+        expireAt: async () => null,
     };
     return;
 }
@@ -28,7 +30,6 @@ const redisConfig = {
     socket: {
         host: REDIS_HOST,
         port: parseInt(REDIS_PORT),
-        // Add connection timeout
         connectTimeout: 10000,
         reconnectStrategy: (retries) => {
             if (retries > 5) {
@@ -40,35 +41,38 @@ const redisConfig = {
     }
 };
 
-const redisClient = createClient(redisConfig);
+const _client = createClient(redisConfig);
 
-redisClient.on('error', (err) => {
-    console.error('Redis Client Error:', err);
-});
-
-redisClient.on('connect', () => {
-    console.log('Redis Client Connected');
-});
-
-redisClient.on('ready', () => {
-    console.log('Redis Client Ready');
-});
-
-redisClient.on('reconnecting', () => {
-    console.log('Redis Client Reconnecting');
-});
+_client.on('error', (err) => { console.error('Redis Client Error:', err.message); });
+_client.on('connect', () => { console.log('Redis Client Connected'); });
+_client.on('ready', () => { console.log('Redis Client Ready'); });
+_client.on('reconnecting', () => { console.log('Redis Client Reconnecting'); });
 
 process.on('SIGINT', async () => {
     try {
-        
-        if (redisClient.isOpen) {
-            await redisClient.quit();
+        if (_client.isOpen) {
+            await _client.quit();
             console.log('Redis connection closed through app termination');
-        } else {
-            console.log('Redis client was already closed');
         }
     } catch (err) {
         console.error('Error during Redis disconnect:', err);
+    }
+});
+
+// Safe proxy — every method silently no-ops if client is not open
+const redisClient = new Proxy(_client, {
+    get(target, prop) {
+        const val = target[prop];
+        if (typeof val === 'function' && prop !== 'connect' && prop !== 'on' && prop !== 'quit') {
+            return async (...args) => {
+                if (!target.isOpen) {
+                    console.warn(`⚠️  Redis not connected — skipping redis.${prop}()`);
+                    return null;
+                }
+                return val.apply(target, args);
+            };
+        }
+        return val;
     }
 });
 

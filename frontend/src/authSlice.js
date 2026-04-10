@@ -5,10 +5,10 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (userData, { rejectWithValue }) => {
     try {
-    const response =  await axiosClient.post('/user/register', userData);
-    return response.data; // Return full response data including requiresVerification
+      const response = await axiosClient.post('/user/register', userData);
+      return response.data; // Return full response data including requiresVerification
     } catch (error) {
-      
+
       const errorMessage = error.response?.data?.message || error.response?.data || error.message || 'Registration failed';
       return rejectWithValue(errorMessage);
     }
@@ -22,7 +22,7 @@ export const loginUser = createAsyncThunk(
       const response = await axiosClient.post('/user/login', credentials);
       return response.data.user;
     } catch (error) {
-      
+
       const errorMessage = error.response?.data?.message || error.response?.data || error.message || 'Login failed';
       return rejectWithValue(errorMessage);
     }
@@ -37,9 +37,9 @@ export const checkAuth = createAsyncThunk(
       return data.user;
     } catch (error) {
       if (error.response?.status === 401) {
-        return rejectWithValue(null); 
+        return rejectWithValue(null);
       }
-      
+
       const errorMessage = error.response?.data?.message || error.response?.data || error.message || 'Auth check failed';
       return rejectWithValue(errorMessage);
     }
@@ -79,7 +79,7 @@ export const logoutUser = createAsyncThunk(
       await axiosClient.post('/user/logout');
       return null;
     } catch (error) {
-      
+
       const errorMessage = error.response?.data?.message || error.response?.data || error.message || 'Logout failed';
       return rejectWithValue(errorMessage);
     }
@@ -98,7 +98,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      
+
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -148,7 +148,7 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.loading = false;
-        
+
         state.error = action.payload === null ? null : (typeof action.payload === 'string' ? action.payload : 'Auth check failed');
         state.isAuthenticated = false;
         state.user = null;
@@ -167,8 +167,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = typeof action.payload === 'string' ? action.payload : 'Logout failed';
-        state.isAuthenticated = false;
-        state.user = null;
+        // Don't clear auth state on logout failure — user stays logged in
       })
 
       .addCase(verifyOTP.pending, (state) => {
