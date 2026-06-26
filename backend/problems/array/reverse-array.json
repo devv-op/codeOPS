@@ -32,29 +32,37 @@
   "startCode": [
     {
       "language": "JavaScript",
-      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  function reverseArray(arr) {\n    // TODO: Reverse the array\n    return [];\n  }\n  \n  console.log(reverseArray(arr).join(' '));\n});"
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction reverseArray(arr) {\n    // TODO: Reverse the array\n    return [];\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(reverseArray(arr).join(' '));\n});"
     },
     {
       "language": "Java",
-      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> reverseArray(int[] arr) {\n        // TODO: Reverse the array\n        return new ArrayList<>();\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = reverseArray(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    // --- USER SOLUTION START ---\npublic static List<Integer> reverseArray(int[] arr) {\n        // TODO: Reverse the array\n        return new ArrayList<>();\n    }\n// --- USER SOLUTION END ---\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = reverseArray(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
     },
     {
       "language": "C++",
-      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> reverseArray(vector<int>& arr) {\n    // TODO: Reverse the array\n    return {};\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = reverseArray(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<int> reverseArray(vector<int>& arr) {\n    // TODO: Reverse the array\n    return {};\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = reverseArray(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef reverseArray(arr):\n    # TODO: Reverse the array in-place\n    pass\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    arr = [int(x) for x in input_data[1:n+1]]\n    reverseArray(arr)\n    print(\" \".join(map(str, arr)))\nif __name__ == '__main__':\n    main()"
     }
   ],
   "referenceSolution": [
     {
       "language": "JavaScript",
-      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  function reverseArray(arr) {\n    return arr.reverse();\n  }\n  \n  console.log(reverseArray(arr).join(' '));\n});"
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction reverseArray(arr) {\n    return arr.reverse();\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(reverseArray(arr).join(' '));\n});"
     },
     {
       "language": "Java",
-      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> reverseArray(int[] arr) {\n        List<Integer> list = new ArrayList<>();\n        for (int i = arr.length - 1; i >= 0; i--) list.add(arr[i]);\n        return list;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = reverseArray(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    // --- USER SOLUTION START ---\npublic static List<Integer> reverseArray(int[] arr) {\n        List<Integer> list = new ArrayList<>();\n        for (int i = arr.length - 1; i >= 0; i--) list.add(arr[i]);\n        return list;\n    }\n// --- USER SOLUTION END ---\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = reverseArray(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
     },
     {
       "language": "C++",
-      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> reverseArray(vector<int>& arr) {\n    reverse(arr.begin(), arr.end());\n    return arr;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = reverseArray(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<int> reverseArray(vector<int>& arr) {\n    reverse(arr.begin(), arr.end());\n    return arr;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = reverseArray(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef reverseArray(arr):\n    arr.reverse()\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    arr = [int(x) for x in input_data[1:n+1]]\n    reverseArray(arr)\n    print(\" \".join(map(str, arr)))\nif __name__ == '__main__':\n    main()"
     }
   ]
 }

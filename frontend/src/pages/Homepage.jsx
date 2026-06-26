@@ -172,7 +172,7 @@ function Homepage() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [showTagDropdown]);
 
-  const parseTagsToArray = (tags) => {
+  const parseTags = (tags) => {
     if (Array.isArray(tags)) return tags;
     if (typeof tags === 'string') {
       
@@ -220,13 +220,13 @@ function Homepage() {
             onClick={(e) => handleTagClick(tags[0], e)}
             className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full transition-all"
             style={{
-              backgroundColor: 'rgba(0, 255, 136, 0.1)',
-              border: '1px solid rgba(0, 255, 136, 0.3)',
-              color: '#00ff88',
+              backgroundColor: 'rgba(128, 128, 128, 0.1)',
+              border: '1px solid rgba(128, 128, 128, 0.3)',
+              color: '#a0a0a0',
             }}
             whileHover={{ 
               scale: 1.05,
-              backgroundColor: 'rgba(0, 255, 136, 0.2)',
+              backgroundColor: 'rgba(128, 128, 128, 0.2)',
             }}
             whileTap={{ scale: 0.95 }}
           >
@@ -241,13 +241,13 @@ function Homepage() {
             onClick={handleDropdownClick}
             className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full transition-all space-x-1"
             style={{
-              backgroundColor: 'rgba(0, 255, 136, 0.1)',
-              border: '1px solid rgba(0, 255, 136, 0.3)',
-              color: '#00ff88',
+              backgroundColor: 'rgba(128, 128, 128, 0.1)',
+              border: '1px solid rgba(128, 128, 128, 0.3)',
+              color: '#a0a0a0',
             }}
             whileHover={{ 
               scale: 1.05,
-              backgroundColor: 'rgba(0, 255, 136, 0.2)',
+              backgroundColor: 'rgba(128, 128, 128, 0.2)',
             }}
             whileTap={{ scale: 0.95 }}
           >

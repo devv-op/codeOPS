@@ -30,29 +30,37 @@
   "startCode": [
     {
       "language": "JavaScript",
-      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const [a, b] = input[0].split(' ').map(Number);\n  \n  function gcd(a, b) {\n    // TODO: Implement GCD\n    return 1;\n  }\n  \n  console.log(gcd(a, b));\n});"
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const [a, b] = input[0].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction gcd(a, b) {\n    // TODO: Implement GCD\n    return 1;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(gcd(a, b));\n});"
     },
     {
       "language": "Java",
-      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(gcd(a, b));\n    }\n    \n    public static int gcd(int a, int b) {\n        // TODO: Implement GCD\n        return 1;\n    }\n}"
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(gcd(a, b));\n    }\n    \n    // --- USER SOLUTION START ---\npublic static int gcd(int a, int b) {\n        // TODO: Implement GCD\n        return 1;\n    }\n// --- USER SOLUTION END ---\n}"
     },
     {
       "language": "C++",
-      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint gcd(int a, int b) {\n    // TODO: Implement GCD\n    return 1;\n}\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << gcd(a, b) << endl;\n    return 0;\n}"
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nint gcd(int a, int b) {\n    // TODO: Implement GCD\n    return 1;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << gcd(a, b) << endl;\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef gcd(a, b):\n    # TODO: Calculate GCD of a and b\n    return 1\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    a = int(input_data[0])\n    b = int(input_data[1])\n    print(gcd(a, b))\nif __name__ == '__main__':\n    main()"
     }
   ],
   "referenceSolution": [
     {
       "language": "JavaScript",
-      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const [a, b] = input[0].split(' ').map(Number);\n  \n  function gcd(a, b) {\n    while (b !== 0) {\n        let temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n  }\n  \n  console.log(gcd(a, b));\n});"
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const [a, b] = input[0].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction gcd(a, b) {\n    while (b !== 0) {\n        let temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(gcd(a, b));\n});"
     },
     {
       "language": "Java",
-      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(gcd(a, b));\n    }\n    \n    public static int gcd(int a, int b) {\n        while (b != 0) {\n            int temp = b;\n            b = a % b;\n            a = temp;\n        }\n        return a;\n    }\n}"
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(gcd(a, b));\n    }\n    \n    // --- USER SOLUTION START ---\npublic static int gcd(int a, int b) {\n        while (b != 0) {\n            int temp = b;\n            b = a % b;\n            a = temp;\n        }\n        return a;\n    }\n// --- USER SOLUTION END ---\n}"
     },
     {
       "language": "C++",
-      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint gcd(int a, int b) {\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n}\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << gcd(a, b) << endl;\n    return 0;\n}"
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nint gcd(int a, int b) {\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << gcd(a, b) << endl;\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef gcd(a, b):\n    while b: a, b = b, a % b\n    return a\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    a = int(input_data[0])\n    b = int(input_data[1])\n    print(gcd(a, b))\nif __name__ == '__main__':\n    main()"
     }
   ]
 }

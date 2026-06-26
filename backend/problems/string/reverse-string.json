@@ -30,29 +30,37 @@
   "startCode": [
     {
       "language": "JavaScript",
-      "initialCode": "function reverseString(str) {\n // TODO: Reverse the string\n return \"\";\n}"
+      "initialCode": "// --- USER SOLUTION START ---\nfunction reverseString(str) {\n // TODO: Reverse the string\n return \"\";\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "Java",
-      "initialCode": "public static String reverseString(String str) {\n // TODO: Reverse the string\n return \"\";\n}"
+      "initialCode": "// --- USER SOLUTION START ---\npublic static String reverseString(String str) {\n // TODO: Reverse the string\n return \"\";\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "C++",
-      "initialCode": "string reverseString(string str) {\n // TODO: Reverse the string\n return \"\";\n}"
+      "initialCode": "// --- USER SOLUTION START ---\nstring reverseString(string str) {\n // TODO: Reverse the string\n return \"\";\n}\n// --- USER SOLUTION END ---"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef reverseString(s):\n    # TODO: Reverse string\n    return \"\"\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    line = sys.stdin.readline().strip()\n    if line.startswith('\"') and line.endswith('\"'):\n        line = line[1:-1]\n    print(reverseString(line))\nif __name__ == '__main__':\n    main()"
     }
   ],
   "referenceSolution": [
     {
       "language": "JavaScript",
-      "completeCode": "function reverseString(str) {\n return str.split('').reverse().join('');\n}"
+      "completeCode": "// --- USER SOLUTION START ---\nfunction reverseString(str) {\n return str.split('').reverse().join('');\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "Java",
-      "completeCode": "public static String reverseString(String str) {\n return new StringBuilder(str).reverse().toString();\n}"
+      "completeCode": "// --- USER SOLUTION START ---\npublic static String reverseString(String str) {\n return new StringBuilder(str).reverse().toString();\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "C++",
-      "completeCode": "string reverseString(string str) {\n reverse(str.begin(), str.end());\n return str;\n}"
+      "completeCode": "// --- USER SOLUTION START ---\nstring reverseString(string str) {\n reverse(str.begin(), str.end());\n return str;\n}\n// --- USER SOLUTION END ---"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef reverseString(s):\n    return s[::-1]\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    line = sys.stdin.readline().strip()\n    if line.startswith('\"') and line.endswith('\"'):\n        line = line[1:-1]\n    print(reverseString(line))\nif __name__ == '__main__':\n    main()"
     }
   ]
 }

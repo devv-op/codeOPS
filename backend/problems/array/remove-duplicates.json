@@ -32,29 +32,37 @@
   "startCode": [
     {
       "language": "JavaScript",
-      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  function removeDuplicates(arr) {\n    // TODO: Remove duplicates and return sorted unique array\n    return [];\n  }\n  \n  console.log(removeDuplicates(arr).join(' '));\n});"
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction removeDuplicates(arr) {\n    // TODO: Remove duplicates and return sorted unique array\n    return [];\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(removeDuplicates(arr).join(' '));\n});"
     },
     {
       "language": "Java",
-      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> removeDuplicates(int[] arr) {\n        // TODO: Remove duplicates and return sorted unique list\n        return new ArrayList<>();\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = removeDuplicates(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    // --- USER SOLUTION START ---\npublic static List<Integer> removeDuplicates(int[] arr) {\n        // TODO: Remove duplicates and return sorted unique list\n        return new ArrayList<>();\n    }\n// --- USER SOLUTION END ---\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = removeDuplicates(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
     },
     {
       "language": "C++",
-      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> removeDuplicates(vector<int>& arr) {\n    // TODO: Remove duplicates and return sorted unique array\n    return {};\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = removeDuplicates(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<int> removeDuplicates(vector<int>& arr) {\n    // TODO: Remove duplicates and return sorted unique array\n    return {};\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = removeDuplicates(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef removeDuplicates(arr):\n    # TODO: Remove duplicates and return sorted unique array\n    return []\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    arr = [int(x) for x in input_data[1:n+1]]\n    res = removeDuplicates(arr)\n    print(\" \".join(map(str, res)))\nif __name__ == '__main__':\n    main()"
     }
   ],
   "referenceSolution": [
     {
       "language": "JavaScript",
-      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  function removeDuplicates(arr) {\n    const unique = Array.from(new Set(arr));\n    unique.sort((a, b) => a - b);\n    return unique;\n  }\n  \n  console.log(removeDuplicates(arr).join(' '));\n});"
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction removeDuplicates(arr) {\n    const unique = Array.from(new Set(arr));\n    unique.sort((a, b) => a - b);\n    return unique;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(removeDuplicates(arr).join(' '));\n});"
     },
     {
       "language": "Java",
-      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> removeDuplicates(int[] arr) {\n        Set<Integer> set = new TreeSet<>();\n        for (int num : arr) set.add(num);\n        return new ArrayList<>(set);\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = removeDuplicates(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    // --- USER SOLUTION START ---\npublic static List<Integer> removeDuplicates(int[] arr) {\n        Set<Integer> set = new TreeSet<>();\n        for (int num : arr) set.add(num);\n        return new ArrayList<>(set);\n    }\n// --- USER SOLUTION END ---\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = removeDuplicates(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
     },
     {
       "language": "C++",
-      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> removeDuplicates(vector<int>& arr) {\n    set<int> s(arr.begin(), arr.end());\n    vector<int> res(s.begin(), s.end());\n    return res;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = removeDuplicates(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<int> removeDuplicates(vector<int>& arr) {\n    set<int> s(arr.begin(), arr.end());\n    vector<int> res(s.begin(), s.end());\n    return res;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = removeDuplicates(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef removeDuplicates(arr):\n    unique = list(set(arr))\n    unique.sort()\n    return unique\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    arr = [int(x) for x in input_data[1:n+1]]\n    res = removeDuplicates(arr)\n    print(\" \".join(map(str, res)))\nif __name__ == '__main__':\n    main()"
     }
   ]
 }

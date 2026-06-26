@@ -32,13 +32,15 @@ import ChatAi from '../components/ChatAi';
 const langMap = {
     cpp: 'c++',
     java: 'java', 
-    javascript: 'javascript'
+    javascript: 'javascript',
+    python: 'python'
 };
 
 const displayNameMap = {
     cpp: 'C++',
     java: 'Java',
-    javascript: 'JavaScript'
+    javascript: 'JavaScript',
+    python: 'Python'
 };
 
 const normalizeLanguage = (dbLang) => {
@@ -46,13 +48,51 @@ const normalizeLanguage = (dbLang) => {
     if (lang === 'c++' || lang === 'cpp') return 'cpp';
     if (lang === 'java') return 'java';
     if (lang === 'javascript' || lang === 'js') return 'javascript';
+    if (lang === 'python' || lang === 'py') return 'python';
     return 'javascript'; 
 };
 
 const defaultStarterCode = {
     'cpp': '// C++ starter code\nclass Solution {\npublic:\n    // Your solution here\n};',
     'java': '// Java starter code\nclass Solution {\n    // Your solution here\n}',
-    'javascript': '// JavaScript starter code\nvar solution = function() {\n    // Your solution here\n};'
+    'javascript': '// JavaScript starter code\nvar solution = function() {\n    // Your solution here\n};',
+    'python': '# Python 3 starter code\nimport sys\n\ndef main():\n    # Read all lines from standard input\n    input_data = sys.stdin.read().splitlines()\n    if not input_data:\n        return\n    \n    # TODO: Implement your solution here\n    # Example: print(input_data)\n\nif __name__ == "__main__":\n    main()'
+};
+
+const cleanUserCode = (code) => {
+  let lines = code.split('\n');
+  while (lines.length > 0 && lines[0].trim() === '') {
+    lines.shift();
+  }
+  while (lines.length > 0 && lines[lines.length - 1].trim() === '') {
+    lines.pop();
+  }
+  return lines.join('\n');
+};
+
+const extractUserCode = (fullCode, lang) => {
+  const startMarker = /\/\/ --- USER SOLUTION START ---|\/\* --- USER SOLUTION START --- \*\/|# --- USER SOLUTION START ---/;
+  const endMarker = /\/\/ --- USER SOLUTION END ---|\/\* --- USER SOLUTION END --- \*\/|# --- USER SOLUTION END ---/;
+  
+  const startMatch = fullCode.match(startMarker);
+  const endMatch = fullCode.match(endMarker);
+  
+  if (startMatch && endMatch && startMatch.index < endMatch.index) {
+    const startIdx = startMatch.index + startMatch[0].length;
+    const endIdx = endMatch.index;
+    
+    let userCode = fullCode.substring(startIdx, endIdx);
+    userCode = cleanUserCode(userCode);
+    
+    const fullTemplate = fullCode.substring(0, startMatch.index) + 
+                         startMatch[0] + 
+                         "\n{{USER_CODE}}\n" + 
+                         fullCode.substring(endMatch.index);
+                         
+    return { userCode, fullTemplate };
+  }
+  
+  return { userCode: fullCode, fullTemplate: "{{USER_CODE}}" };
 };
 
 const ProblemPage = () => {
@@ -68,12 +108,13 @@ const ProblemPage = () => {
   const [videoSolution, setVideoSolution] = useState(null);
   const [videoLoading, setVideoLoading] = useState(false);
   const editorRef = useRef(null);
+  const fullTemplateRef = useRef('');
   const navigate = useNavigate();
   let {problemId}  = useParams();
-
+  
   const { handleSubmit } = useForm();
-
- useEffect(() => {
+  
+  useEffect(() => {
     const fetchProblem = async () => {
       if (!problemId) {
         console.error('Problem ID is missing');
@@ -112,11 +153,13 @@ const ProblemPage = () => {
           }
         }
         
-        if (startCodeEntry && startCodeEntry.initialCode) {
-          setCode(startCodeEntry.initialCode);
-        } else {
-          setCode(defaultStarterCode[selectedLanguage] || '// No starter code available');
-        }
+        const rawCode = startCodeEntry && startCodeEntry.initialCode 
+          ? startCodeEntry.initialCode 
+          : (defaultStarterCode[selectedLanguage] || '// No starter code available');
+
+        const { userCode, fullTemplate } = extractUserCode(rawCode, selectedLanguage);
+        setCode(userCode);
+        fullTemplateRef.current = fullTemplate;
 
         setProblem(response.data);
         setLoading(false);
@@ -174,11 +217,13 @@ const ProblemPage = () => {
         return normalizedScLang === selectedLanguage;
       });
       
-      if (startCodeEntry && startCodeEntry.initialCode) {
-        setCode(startCodeEntry.initialCode);
-      } else {
-        setCode(defaultStarterCode[selectedLanguage] || '// No starter code available');
-      }
+      const rawCode = startCodeEntry && startCodeEntry.initialCode 
+        ? startCodeEntry.initialCode 
+        : (defaultStarterCode[selectedLanguage] || '// No starter code available');
+
+      const { userCode, fullTemplate } = extractUserCode(rawCode, selectedLanguage);
+      setCode(userCode);
+      fullTemplateRef.current = fullTemplate;
     }
   }, [selectedLanguage, problem]);
 
@@ -194,13 +239,20 @@ const ProblemPage = () => {
     setSelectedLanguage(language);
   };
 
+  const getFullCode = () => {
+    if (fullTemplateRef.current && fullTemplateRef.current.includes("{{USER_CODE}}")) {
+      return fullTemplateRef.current.replace("{{USER_CODE}}", code);
+    }
+    return code;
+  };
+
   const handleRun = async () => {
     setLoading(true);
     setRunResult(null);
     
     try {
       const response = await axiosClient.post(`/submission/run/${problemId}`, {
-        code,
+        code: getFullCode(),
         language: selectedLanguage
       });
 
@@ -212,7 +264,7 @@ const ProblemPage = () => {
       console.error('Error running code:', error);
       setRunResult({
         success: false,
-        error: 'Internal server error'
+        error: error.response?.data?.message || 'Internal server error'
       });
       setLoading(false);
       setActiveRightTab('testcase');
@@ -225,7 +277,7 @@ const ProblemPage = () => {
     
     try {
         const response = await axiosClient.post(`/submission/submit/${problemId}`, {
-        code:code,
+        code: getFullCode(),
         language: selectedLanguage
       });
 
@@ -235,7 +287,12 @@ const ProblemPage = () => {
       
     } catch (error) {
       console.error('Error submitting code:', error);
-      setSubmitResult(null);
+      setSubmitResult({
+        accepted: false,
+        error: error.response?.data?.message || 'Internal server error',
+        passedTestCases: 0,
+        totalTestCases: 0
+      });
       setLoading(false);
       setActiveRightTab('result');
     }
@@ -246,6 +303,7 @@ const ProblemPage = () => {
       case 'javascript': return 'javascript';
       case 'java': return 'java';
       case 'cpp': return 'cpp';
+      case 'python': return 'python';
       default: return 'javascript';
     }
   };
@@ -636,7 +694,7 @@ const ProblemPage = () => {
                           }}>
                             <h3 className="font-semibold" style={{ color: '#00ff88' }}>{problem?.title} - {solution?.language}</h3>
                             <motion.button
-                              onClick={() => handleCopyCode(solution?.completeCode, index)}
+                              onClick={() => handleCopyCode(extractUserCode(solution?.completeCode, solution?.language).userCode, index)}
                               className="flex items-center gap-2 px-3 py-1.5 rounded-md transition-all"
                               style={{
                                 backgroundColor: copiedIndex === index ? 'rgba(0, 255, 136, 0.2)' : 'rgba(0, 255, 136, 0.1)',
@@ -667,7 +725,7 @@ const ProblemPage = () => {
                               backgroundColor: 'rgba(10, 10, 15, 0.8)', 
                               color: '#e0e0e0' 
                             }}>
-                              <code>{solution?.completeCode}</code>
+                              <code>{extractUserCode(solution?.completeCode, solution?.language).userCode}</code>
                             </pre>
                           </div>
                         </motion.div>
@@ -786,7 +844,7 @@ const ProblemPage = () => {
 
                 <div className="flex justify-between items-center p-4" style={{ borderBottom: '1px solid rgba(0, 255, 136, 0.1)' }}>
                   <div className="flex gap-2">
-                    {['javascript', 'java', 'cpp'].map((lang) => (
+                    {['javascript', 'java', 'cpp', 'python'].map((lang) => (
                       <motion.button
                         key={lang}
                         className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all"
@@ -1027,8 +1085,18 @@ const ProblemPage = () => {
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <span className="font-medium" style={{ color: '#808080' }}>Output:</span>
-                                  <span style={{ color: '#ef4444' }}>{tc.stdout}</span>
+                                  <span style={{ color: '#ef4444' }}>{tc.stdout || '(no stdout)'}</span>
                                 </div>
+                                {tc.stderr && (
+                                  <div className="mt-2 p-2 rounded bg-black/40 text-xs text-red-300 font-mono overflow-x-auto whitespace-pre-wrap max-w-full">
+                                    <strong>Stderr:</strong> {tc.stderr}
+                                  </div>
+                                )}
+                                {tc.compile_output && (
+                                  <div className="mt-2 p-2 rounded bg-black/40 text-xs text-red-300 font-mono overflow-x-auto whitespace-pre-wrap max-w-full">
+                                    <strong>Compilation Error:</strong> {tc.compile_output}
+                                  </div>
+                                )}
                                 <div className="flex items-center gap-2">
                                   {tc.status_id == 3 ? (
                                     <>
@@ -1133,8 +1201,12 @@ const ProblemPage = () => {
                             <XCircle className="w-6 h-6" style={{ color: '#ffffff' }} />
                           </div>
                           <div>
-                            <h4 className="text-2xl font-bold" style={{ color: '#ef4444' }}>{submitResult.error}</h4>
-                            <p style={{ color: '#b0b0b0' }}>Your solution needs improvement.</p>
+                            <h4 className="text-2xl font-bold text-wrap" style={{ color: '#ef4444' }}>
+                              {submitResult.error || (submitResult.status === 'wrong' ? 'Wrong Answer' : 'Execution Error')}
+                            </h4>
+                            <p style={{ color: '#b0b0b0' }}>
+                              {submitResult.errorMessage || 'Your solution needs improvement.'}
+                            </p>
                           </div>
                         </div>
                         

@@ -1,0 +1,68 @@
+{
+  "title": "Fizz Buzz",
+  "description": "Given an integer `n`, return a string array response where:\n- answer[i] == 'FizzBuzz' if i is divisible by 3 and 5.\n- answer[i] == 'Fizz' if i is divisible by 3.\n- answer[i] == 'Buzz' if i is divisible by 5.\n- answer[i] == i (as a string) if none of the above conditions are true.\n\nInput Format:\n- A single integer `n`.\n\nOutput Format:\n- Print space-separated string answers from 1 to `n`.",
+  "difficulty": "easy",
+  "tags": "math",
+  "visibleTestCases": [
+    {
+      "input": "3",
+      "output": "1 2 Fizz",
+      "explanation": "For n = 3, 1 is 1, 2 is 2, 3 is divisible by 3 (Fizz)."
+    },
+    {
+      "input": "5",
+      "output": "1 2 Fizz 4 Buzz",
+      "explanation": "For n = 5, 1..4 is 1 2 Fizz 4, 5 is divisible by 5 (Buzz)."
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "3",
+      "output": "1 2 Fizz"
+    },
+    {
+      "input": "5",
+      "output": "1 2 Fizz 4 Buzz"
+    },
+    {
+      "input": "15",
+      "output": "1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz"
+    }
+  ],
+  "startCode": [
+    {
+      "language": "JavaScript",
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  // --- USER SOLUTION START ---\nfunction fizzBuzz(n) {\n    // TODO: Generate Fizz Buzz answers up to n\n    return [];\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(fizzBuzz(n).join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        if (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            List<String> res = fizzBuzz(n);\n            System.out.println(String.join(\" \", res));\n        }\n    }\n    \n    // --- USER SOLUTION START ---\npublic static List<String> fizzBuzz(int n) {\n        // TODO: Generate Fizz Buzz answers up to n\n        return new ArrayList<>();\n    }\n// --- USER SOLUTION END ---\n}"
+    },
+    {
+      "language": "C++",
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<string> fizzBuzz(int n) {\n    // TODO: Generate Fizz Buzz answers up to n\n    return {};\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    if (cin >> n) {\n        vector<string> res = fizzBuzz(n);\n        for (int i = 0; i < res.size(); i++) {\n            cout << res[i] << (i == res.size() - 1 ? \"\" : \" \");\n        }\n        cout << endl;\n    }\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef fizzBuzz(n):\n    # TODO: Generate Fizz Buzz answers up to n\n    return []\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    print(\" \".join(fizzBuzz(n)))\nif __name__ == '__main__':\n    main()"
+    }
+  ],
+  "referenceSolution": [
+    {
+      "language": "JavaScript",
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  // --- USER SOLUTION START ---\nfunction fizzBuzz(n) {\n    const ans = [];\n    for (let i = 1; i <= n; i++) {\n      if (i % 3 === 0 && i % 5 === 0) {\n        ans.push('FizzBuzz');\n      } else if (i % 3 === 0) {\n        ans.push('Fizz');\n      } else if (i % 5 === 0) {\n        ans.push('Buzz');\n      } else {\n        ans.push(i.toString());\n      }\n    }\n    return ans;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(fizzBuzz(n).join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        if (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            List<String> res = fizzBuzz(n);\n            System.out.println(String.join(\" \", res));\n        }\n    }\n    \n    // --- USER SOLUTION START ---\npublic static List<String> fizzBuzz(int n) {\n        List<String> ans = new ArrayList<>();\n        for (int i = 1; i <= n; i++) {\n            if (i % 3 == 0 && i % 5 == 0) {\n                ans.add(\"FizzBuzz\");\n            } else if (i % 3 == 0) {\n                ans.add(\"Fizz\");\n            } else if (i % 5 == 0) {\n                ans.add(\"Buzz\");\n            } else {\n                ans.add(String.valueOf(i));\n            }\n        }\n        return ans;\n    }\n// --- USER SOLUTION END ---\n}"
+    },
+    {
+      "language": "C++",
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<string> fizzBuzz(int n) {\n    vector<string> ans;\n    for (int i = 1; i <= n; i++) {\n        if (i % 3 == 0 && i % 5 == 0) {\n            ans.push_back(\"FizzBuzz\");\n        } else if (i % 3 == 0) {\n            ans.push_back(\"Fizz\");\n        } else if (i % 5 == 0) {\n            ans.push_back(\"Buzz\");\n        } else {\n            ans.push_back(to_string(i));\n        }\n    }\n    return ans;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    if (cin >> n) {\n        vector<string> res = fizzBuzz(n);\n        for (int i = 0; i < res.size(); i++) {\n            cout << res[i] << (i == res.size() - 1 ? \"\" : \" \");\n        }\n        cout << endl;\n    }\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef fizzBuzz(n):\n    ans = []\n    for i in range(1, n + 1):\n        if i % 3 == 0 and i % 5 == 0: ans.append('FizzBuzz')\n        elif i % 3 == 0: ans.append('Fizz')\n        elif i % 5 == 0: ans.append('Buzz')\n        else: ans.append(str(i))\n    return ans\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    print(\" \".join(fizzBuzz(n)))\nif __name__ == '__main__':\n    main()"
+    }
+  ]
+}

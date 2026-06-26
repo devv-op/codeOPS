@@ -1,0 +1,72 @@
+{
+  "title": "Two Sum",
+  "description": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nInput Format:\n- Line 1: `n` (number of elements) and `target` (target sum) separated by a space.\n- Line 2: `n` space-separated integers representing the array.\n\nOutput Format:\n- Return the indices of the two numbers separated by a space (e.g. `0 1`). Output the smaller index first.",
+  "difficulty": "medium",
+  "tags": "array",
+  "visibleTestCases": [
+    {
+      "input": "4 9\n2 7 11 15",
+      "output": "0 1",
+      "explanation": "Because nums[0] + nums[1] == 2 + 7 == 9, we return 0 1."
+    },
+    {
+      "input": "3 6\n3 2 4",
+      "output": "1 2",
+      "explanation": "Because nums[1] + nums[2] == 2 + 4 == 6, we return 1 2."
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "4 9\n2 7 11 15",
+      "output": "0 1"
+    },
+    {
+      "input": "3 6\n3 2 4",
+      "output": "1 2"
+    },
+    {
+      "input": "2 6\n3 3",
+      "output": "0 1"
+    },
+    {
+      "input": "5 10\n1 3 5 5 7",
+      "output": "2 3"
+    }
+  ],
+  "startCode": [
+    {
+      "language": "JavaScript",
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const firstLine = input[0].split(' ').map(Number);\n  const n = firstLine[0];\n  const target = firstLine[1];\n  const nums = input[1].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction twoSum(nums, target) {\n    // TODO: Return indices of the two numbers that add up to target\n    return [0, 0];\n  }\n// --- USER SOLUTION END ---\n  \n  const result = twoSum(nums, target);\n  console.log(result.join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int target = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) {\n            nums[i] = sc.nextInt();\n        }\n        int[] res = twoSum(nums, target);\n        System.out.println(res[0] + \" \" + res[1]);\n    }\n    \n    // --- USER SOLUTION START ---\npublic static int[] twoSum(int[] nums, int target) {\n        // TODO: Return indices of the two numbers that add up to target\n        return new int[]{0, 0};\n    }\n// --- USER SOLUTION END ---\n}"
+    },
+    {
+      "language": "C++",
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<int> twoSum(vector<int>& nums, int target) {\n    // TODO: Return indices of the two numbers that add up to target\n    return {0, 0};\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n, target;\n    if (cin >> n >> target) {\n        vector<int> nums(n);\n        for (int i = 0; i < n; i++) cin >> nums[i];\n        vector<int> res = twoSum(nums, target);\n        cout << res[0] << \" \" << res[1] << endl;\n    }\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef twoSum(nums, target):\n    # TODO: Return indices of the two numbers that add up to target\n    return [0, 0]\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    target = int(input_data[1])\n    nums = [int(x) for x in input_data[2:n+2]]\n    res = twoSum(nums, target)\n    print(f\"{res[0]} {res[1]}\")\nif __name__ == '__main__':\n    main()"
+    }
+  ],
+  "referenceSolution": [
+    {
+      "language": "JavaScript",
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const firstLine = input[0].split(' ').map(Number);\n  const n = firstLine[0];\n  const target = firstLine[1];\n  const nums = input[1].split(' ').map(Number);\n  \n  // --- USER SOLUTION START ---\nfunction twoSum(nums, target) {\n    const map = new Map();\n    for (let i = 0; i < nums.length; i++) {\n      const complement = target - nums[i];\n      if (map.has(complement)) {\n        return [map.get(complement), i];\n      }\n      map.set(nums[i], i);\n    }\n    return [0, 0];\n  }\n// --- USER SOLUTION END ---\n  \n  const result = twoSum(nums, target);\n  console.log(result.join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        if (sc.hasNextInt()) {\n            int n = sc.nextInt();\n            int target = sc.nextInt();\n            int[] nums = new int[n];\n            for (int i = 0; i < n; i++) {\n                nums[i] = sc.nextInt();\n            }\n            int[] res = twoSum(nums, target);\n            System.out.println(res[0] + \" \" + res[1]);\n        }\n    }\n    \n    // --- USER SOLUTION START ---\npublic static int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> map = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (map.containsKey(complement)) {\n                return new int[] { map.get(complement), i };\n            }\n            map.put(nums[i], i);\n        }\n        return new int[] { 0, 0 };\n    }\n// --- USER SOLUTION END ---\n}"
+    },
+    {
+      "language": "C++",
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nvector<int> twoSum(vector<int>& nums, int target) {\n    unordered_map<int, int> map;\n    for (int i = 0; i < nums.size(); i++) {\n        int complement = target - nums[i];\n        if (map.count(complement)) {\n            return {map[complement], i};\n        }\n        map[nums[i]] = i;\n    }\n    return {0, 0};\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n, target;\n    if (cin >> n >> target) {\n        vector<int> nums(n);\n        for (int i = 0; i < n; i++) cin >> nums[i];\n        vector<int> res = twoSum(nums, target);\n        cout << res[0] << \" \" << res[1] << endl;\n    }\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef twoSum(nums, target):\n    mapping = {}\n    for i, num in enumerate(nums):\n        complement = target - num\n        if complement in mapping:\n            return [mapping[complement], i]\n        mapping[num] = i\n    return [0, 0]\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    target = int(input_data[1])\n    nums = [int(x) for x in input_data[2:n+2]]\n    res = twoSum(nums, target)\n    print(f\"{res[0]} {res[1]}\")\nif __name__ == '__main__':\n    main()"
+    }
+  ]
+}

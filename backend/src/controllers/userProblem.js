@@ -261,7 +261,7 @@ const submittedProblem = async(req,res)=>{
    const ans = await Submission.find({userId,problemId});
   
   if(ans.length==0)
-    res.status(200).send("No Submission is persent");
+    return res.status(200).send("No Submission is persent");
 
   res.status(200).send(ans);
 

@@ -35,29 +35,37 @@
   "startCode": [
     {
       "language": "JavaScript",
-      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  function factorial(n) {\n    // TODO: Implement factorial\n    return 1;\n  }\n  \n  console.log(factorial(n));\n});"
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  // --- USER SOLUTION START ---\nfunction factorial(n) {\n    // TODO: Implement factorial\n    return 1;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(factorial(n));\n});"
     },
     {
       "language": "Java",
-      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(factorial(n));\n    }\n    \n    public static int factorial(int n) {\n        // TODO: Implement factorial\n        return 1;\n    }\n}"
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(factorial(n));\n    }\n    \n    // --- USER SOLUTION START ---\npublic static int factorial(int n) {\n        // TODO: Implement factorial\n        return 1;\n    }\n// --- USER SOLUTION END ---\n}"
     },
     {
       "language": "C++",
-      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint factorial(int n) {\n    // TODO: Implement factorial\n    return 1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << factorial(n) << endl;\n    return 0;\n}"
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nint factorial(int n) {\n    // TODO: Implement factorial\n    return 1;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    cout << factorial(n) << endl;\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef factorial(n):\n    # TODO: Calculate factorial of n\n    return 0\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    print(factorial(n))\nif __name__ == '__main__':\n    main()"
     }
   ],
   "referenceSolution": [
     {
       "language": "JavaScript",
-      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  function factorial(n) {\n    if (n === 0) return 1;\n    let res = 1;\n    for (let i = 1; i <= n; i++) res *= i;\n    return res;\n  }\n  \n  console.log(factorial(n));\n});"
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  // --- USER SOLUTION START ---\nfunction factorial(n) {\n    if (n === 0) return 1;\n    let res = 1;\n    for (let i = 1; i <= n; i++) res *= i;\n    return res;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(factorial(n));\n});"
     },
     {
       "language": "Java",
-      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(factorial(n));\n    }\n    \n    public static int factorial(int n) {\n        if (n == 0) return 1;\n        int res = 1;\n        for (int i = 1; i <= n; i++) res *= i;\n        return res;\n    }\n}"
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(factorial(n));\n    }\n    \n    // --- USER SOLUTION START ---\npublic static int factorial(int n) {\n        if (n == 0) return 1;\n        int res = 1;\n        for (int i = 1; i <= n; i++) res *= i;\n        return res;\n    }\n// --- USER SOLUTION END ---\n}"
     },
     {
       "language": "C++",
-      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 0) return 1;\n    int res = 1;\n    for (int i = 1; i <= n; i++) res *= i;\n    return res;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << factorial(n) << endl;\n    return 0;\n}"
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nint factorial(int n) {\n    if (n == 0) return 1;\n    int res = 1;\n    for (int i = 1; i <= n; i++) res *= i;\n    return res;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    cout << factorial(n) << endl;\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef factorial(n):\n    if n == 0 or n == 1: return 1\n    res = 1\n    for i in range(2, n + 1): res *= i\n    return res\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    print(factorial(n))\nif __name__ == '__main__':\n    main()"
     }
   ]
 }

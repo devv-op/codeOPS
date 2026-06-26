@@ -6,7 +6,7 @@ const {updateStreak} = require("../utils/streakUtility");
 
 // Constants for validation
 const MAX_CODE_LENGTH = 50000; // 50KB
-const SUPPORTED_LANGUAGES = ['javascript', 'c++', 'java'];
+const SUPPORTED_LANGUAGES = ['javascript', 'c++', 'java', 'python'];
 
 // Judge0 status codes
 const JUDGE0_STATUS = {
@@ -291,7 +291,14 @@ const runCode = async(req,res)=>{
                 passed,
                 runtime: parseFloat(test.time) || 0,
                 memory: parseInt(test.memory) || 0,
-                error: passed ? null : (test.stderr || test.compile_output || 'Wrong answer')
+                error: passed ? null : (test.stderr || test.compile_output || 'Wrong answer'),
+                // Match frontend expected keys
+                stdin: problem.visibleTestCases[index].input,
+                expected_output: problem.visibleTestCases[index].output,
+                stdout: test.stdout || '',
+                status_id: test.status_id,
+                stderr: test.stderr || '',
+                compile_output: test.compile_output || ''
             };
         });
 

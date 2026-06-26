@@ -45,29 +45,37 @@
   "startCode": [
     {
       "language": "JavaScript",
-      "initialCode": "function isPalindrome(s) {\n    // TODO: Check if string is palindrome\n    return false;\n}"
+      "initialCode": "// --- USER SOLUTION START ---\nfunction isPalindrome(s) {\n    // TODO: Check if string is palindrome\n    return false;\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "Java",
-      "initialCode": "public static boolean isPalindrome(String s) {\n    // TODO: Check if string is palindrome\n    return false;\n}"
+      "initialCode": "// --- USER SOLUTION START ---\npublic static boolean isPalindrome(String s) {\n    // TODO: Check if string is palindrome\n    return false;\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "C++",
-      "initialCode": "bool isPalindrome(string s) {\n    // TODO: Check if string is palindrome\n    return false;\n}"
+      "initialCode": "// --- USER SOLUTION START ---\nbool isPalindrome(string s) {\n    // TODO: Check if string is palindrome\n    return false;\n}\n// --- USER SOLUTION END ---"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef isPalindrome(s):\n    # TODO: Return true if s is a palindrome, false otherwise\n    return False\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    line = sys.stdin.readline().strip()\n    if line.startswith('\"') and line.endswith('\"'):\n        line = line[1:-1]\n    print(\"true\" if isPalindrome(line) else \"false\")\nif __name__ == '__main__':\n    main()"
     }
   ],
   "referenceSolution": [
     {
       "language": "JavaScript",
-      "completeCode": "function isPalindrome(s) {\n    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');\n    let left = 0, right = s.length - 1;\n    \n    while (left < right) {\n        if (s[left] !== s[right]) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}"
+      "completeCode": "// --- USER SOLUTION START ---\nfunction isPalindrome(s) {\n    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');\n    let left = 0, right = s.length - 1;\n    \n    while (left < right) {\n        if (s[left] !== s[right]) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "Java",
-      "completeCode": "public static boolean isPalindrome(String s) {\n    s = s.toLowerCase().replaceAll(\"[^a-z0-9]\", \"\");\n    int left = 0, right = s.length() - 1;\n    \n    while (left < right) {\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}"
+      "completeCode": "// --- USER SOLUTION START ---\npublic static boolean isPalindrome(String s) {\n    s = s.toLowerCase().replaceAll(\"[^a-z0-9]\", \"\");\n    int left = 0, right = s.length() - 1;\n    \n    while (left < right) {\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}\n// --- USER SOLUTION END ---"
     },
     {
       "language": "C++",
-      "completeCode": "bool isPalindrome(string s) {\n    string cleaned = \"\";\n    for (char c : s) {\n        if (isalnum(c)) {\n            cleaned += tolower(c);\n        }\n    }\n    \n    int left = 0, right = cleaned.length() - 1;\n    while (left < right) {\n        if (cleaned[left] != cleaned[right]) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}"
+      "completeCode": "// --- USER SOLUTION START ---\nbool isPalindrome(string s) {\n    string cleaned = \"\";\n    for (char c : s) {\n        if (isalnum(c)) {\n            cleaned += tolower(c);\n        }\n    }\n    \n    int left = 0, right = cleaned.length() - 1;\n    while (left < right) {\n        if (cleaned[left] != cleaned[right]) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}\n// --- USER SOLUTION END ---"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef isPalindrome(s):\n    clean_s = \"\".join(c.lower() for c in s if c.isalnum())\n    return clean_s == clean_s[::-1]\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    line = sys.stdin.readline().strip()\n    if line.startswith('\"') and line.endswith('\"'):\n        line = line[1:-1]\n    print(\"true\" if isPalindrome(line) else \"false\")\nif __name__ == '__main__':\n    main()"
     }
   ]
 }

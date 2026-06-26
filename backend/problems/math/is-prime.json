@@ -1,0 +1,76 @@
+{
+  "title": "Check Prime Number",
+  "description": "Determine if a given non-negative integer is a prime number.\n\nA prime number is a number greater than 1 that has no positive divisors other than 1 and itself.",
+  "difficulty": "easy",
+  "tags": "math",
+  "visibleTestCases": [
+    {
+      "input": "5",
+      "output": "true",
+      "explanation": "5 has no positive divisors other than 1 and itself, so it is a prime number."
+    },
+    {
+      "input": "4",
+      "output": "false",
+      "explanation": "4 is divisible by 2 (2 * 2 = 4), so it is not a prime number."
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "5",
+      "output": "true"
+    },
+    {
+      "input": "4",
+      "output": "false"
+    },
+    {
+      "input": "1",
+      "output": "false"
+    },
+    {
+      "input": "2",
+      "output": "true"
+    },
+    {
+      "input": "97",
+      "output": "true"
+    }
+  ],
+  "startCode": [
+    {
+      "language": "JavaScript",
+      "initialCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  // --- USER SOLUTION START ---\nfunction isPrime(n) {\n    // TODO: Determine if n is prime\n    return false;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(isPrime(n));\n});"
+    },
+    {
+      "language": "Java",
+      "initialCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(isPrime(n));\n    }\n    \n    // --- USER SOLUTION START ---\npublic static boolean isPrime(int n) {\n        // TODO: Determine if n is prime\n        return false;\n    }\n// --- USER SOLUTION END ---\n}"
+    },
+    {
+      "language": "C++",
+      "initialCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nbool isPrime(int n) {\n    // TODO: Determine if n is prime\n    return false;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    cout << (isPrime(n) ? \"true\" : \"false\") << endl;\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "initialCode": "# --- USER SOLUTION START ---\ndef isPrime(n):\n    # TODO: Determine if n is prime\n    return False\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    print(\"true\" if isPrime(n) else \"false\")\nif __name__ == '__main__':\n    main()"
+    }
+  ],
+  "referenceSolution": [
+    {
+      "language": "JavaScript",
+      "completeCode": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  \n  // --- USER SOLUTION START ---\nfunction isPrime(n) {\n    if (n <= 1) return false;\n    if (n <= 3) return true;\n    if (n % 2 === 0 || n % 3 === 0) return false;\n    for (let i = 5; i * i <= n; i += 6) {\n      if (n % i === 0 || n % (i + 2) === 0) return false;\n    }\n    return true;\n  }\n// --- USER SOLUTION END ---\n  \n  console.log(isPrime(n));\n});"
+    },
+    {
+      "language": "Java",
+      "completeCode": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(isPrime(n));\n    }\n    \n    // --- USER SOLUTION START ---\npublic static boolean isPrime(int n) {\n        if (n <= 1) return false;\n        if (n <= 3) return true;\n        if (n % 2 == 0 || n % 3 == 0) return false;\n        for (int i = 5; i * i <= n; i += 6) {\n            if (n % i == 0 || n % (i + 2) == 0) return false;\n        }\n        return true;\n    }\n// --- USER SOLUTION END ---\n}"
+    },
+    {
+      "language": "C++",
+      "completeCode": "#include <bits/stdc++.h>\nusing namespace std;\n\n// --- USER SOLUTION START ---\nbool isPrime(int n) {\n    if (n <= 1) return false;\n    if (n <= 3) return true;\n    if (n % 2 == 0 || n % 3 == 0) return false;\n    for (int i = 5; i * i <= n; i += 6) {\n        if (n % i == 0 || n % (i + 2) == 0) return false;\n    }\n    return true;\n}\n// --- USER SOLUTION END ---\n\nint main() {\n    int n;\n    cin >> n;\n    cout << (isPrime(n) ? \"true\" : \"false\") << endl;\n    return 0;\n}"
+    },
+    {
+      "language": "Python",
+      "completeCode": "# --- USER SOLUTION START ---\ndef isPrime(n):\n    if n <= 1: return False\n    if n <= 3: return True\n    if n % 2 == 0 or n % 3 == 0: return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0: return False\n        i += 6\n    return True\n# --- USER SOLUTION END ---\n\nimport sys\ndef main():\n    input_data = sys.stdin.read().split()\n    if not input_data: return\n    n = int(input_data[0])\n    print(\"true\" if isPrime(n) else \"false\")\nif __name__ == '__main__':\n    main()"
+    }
+  ]
+}
